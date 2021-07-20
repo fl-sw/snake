@@ -1,6 +1,6 @@
 #include<Windows.h>
 #include"snake.h"
-
+//#include"graph.h"
 
 Area area;
 pSnake pSnk;

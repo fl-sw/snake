@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<Windows.h>
 #include<conio.h>
+//#include"graph.h"
 
 
 #define HEIGHTBOARD		40

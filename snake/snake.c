@@ -7,7 +7,6 @@
 #include"snake.h"
 
 
-
 //设置光标位置
 void set_cursor_pos(SHORT x, SHORT y)
 {
@@ -187,8 +186,8 @@ pSnake init_first_snake()
 			pTemp->_pre = arr[DEFAULTLENGTH - 1];
 		pTemp->_x = WIDTHBOARD / 2 + i;
 		pTemp->_y = HEIGHTBOARD / 3 * 2;
-		if (NULL != pTemp->_next)
-			pTemp = pTemp->_next;
+		//if (NULL != pTemp->_next)
+		//	pTemp = pTemp->_next;
 	}
 	pSnk->_dir = LEFT;
 	pSnk->_length = DEFAULTLENGTH;
@@ -214,13 +213,30 @@ void start()
 			{
 				getchar();
 			}
-			if (in == 'w' || in == 'a' || in == 's' || in == 'd')
+			switch (in)
 			{
-				iDir = in;
+			case 'w':
+				if (iDir != DOWN)
+					iDir = UP;
+				break;
+			case 'a':
+				if (iDir != RIGHT)
+					iDir = LEFT;
+				break;
+			case 's':
+				if (iDir != UP)
+					iDir = DOWN;
+				break;
+			case 'd':
+				if (iDir != LEFT)
+					iDir = RIGHT;
+				break;
+			default:
+				break;
 			}
 		}
 		out = run(iDir);
-		if (out == 1)
+		if (out != 0)
 		{
 			getchar();
 		}
@@ -242,6 +258,16 @@ int run(iDir)
 	{
 		return 1;
 	}
+	//碰身体
+	pSNode pTemp = pSnk->_pHead->_next;
+	while (pTemp != pSnk->_pTail)
+	{
+		if (pSnk->_pHead->_x == pTemp->_x && pSnk->_pHead->_y == pTemp->_y)
+		{
+			return 2;
+		}
+		pTemp = pTemp->_next;
+	}
 
 	if (area._ate == 0)
 	{
@@ -261,6 +287,7 @@ int run(iDir)
 	pSnk->_pNeck->_dir = pSnk->_pHead->_dir;
 	pSnk->_pNeck->_next = pSnk->_pHead->_next;
 	pSnk->_pNeck->_pre = pSnk->_pHead;
+	pSnk->_pNeck->_next->_pre = pSnk->_pNeck;
 	pSnk->_pNeck->_x = pSnk->_pHead->_x;
 	pSnk->_pNeck->_y = pSnk->_pHead->_y;
 	//用第一个头指向第二个头，让第二个头变成脖子

@@ -5,5 +5,4 @@
 #include<stdio.h>
 
 
-
 #endif //__GRAPH_H__
